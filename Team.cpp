@@ -1,82 +1,65 @@
 ﻿#include <iostream>
+#include <vector>
 using namespace std;
 
-class salat {
+class cmd {
+public:
+    virtual void cooking() = 0;
+};
+class salat : public cmd {
 public:
     void cooking() {
-        cout << "Приготовлен салат";
+        cout << "Приготовлен салат\n";
     }
 };
-class pervoe {
+class pervoe : public cmd {
 public:
     void cooking() {
-        cout << "Приготовлено первое";
+        cout << "Приготовлено первое\n";
     }
 };
-class vtoroe {
+class vtoroe : public cmd {
 public:
     void cooking() {
-        cout << "Приготовлено второе";
+        cout << "Приготовлено второе\n";
     }
 };
-class morozjenoe {
+class morozjenoe : public cmd {
 public:
     void cooking() {
-        cout << "Приготовлено мороженое";
+        cout << "Приготовлено мороженое\n";
     }
 };
-class chai {
+class chai : public cmd {
 public:
     void cooking() {
-        cout << "Приготовлен чай";
+        cout << "Приготовлен чай\n";
     }
 };
-class desert {
+class desert : public cmd {
 public:
     void cooking() {
-        cout << "Приготовлен десерт";
+        cout << "Приготовлен десерт\n";
     }
 };
 
 class command {
 public:
-    salat a;
-    pervoe b;
-    vtoroe c;
-    morozjenoe d;
-    chai e;
-    desert f;
-    int salat = 0;
-    int pervoe = 0;
-    int vtoroe = 0;
-    int morozjenoe = 0;
-    int chai = 0;
-    int desert = 0;
+    cmd *v;
+    vector<cmd*> V;
+    void add(int x) {
+        switch (x) {
+        case 1: v = new salat; break;
+        case 2: v = new morozjenoe; break;
+        case 3: v = new chai; break;
+        case 4: v = new pervoe; break;
+        case 5: v = new vtoroe; break;
+        case 6: v = new desert; break;
+        }
+        V.push_back(v);
+    }
     void execute() {
-        if (salat > 0) {
-            a.cooking();
-            cout << " x " << salat << endl;
-        }
-        if (pervoe > 0) {
-            b.cooking();
-            cout << " x " << pervoe << endl;
-        }
-        if (vtoroe > 0) {
-            c.cooking();
-            cout << " x " << vtoroe << endl;
-        }
-        if (morozjenoe > 0) {
-            d.cooking();
-            cout << " x " << morozjenoe << endl;
-        }
-        if (chai > 0) {
-            e.cooking();
-            cout << " x " << chai << endl;
-        }
-        if (desert > 0) {
-            f.cooking();
-            cout << " x " << desert << endl;
-        }
+        for (auto &item : V) item->cooking();
     }
 };
 
@@ -85,37 +68,11 @@ int main(){
     setlocale(0, "");
     int x;
     command A;
-
     do {
         cout << "1 - салат, 2 - мороженое, 3 - чай, 4 - первое, 5 - второе, 6 - десерт, 0 - закончить заказ: ";
         cin >> x;
-        switch (x) {
-        case 1:
-            cout << "Салат принято;\n";
-            A.salat++;
-            break;
-        case 2:
-            cout << "Мороженое принято;\n";
-            A.morozjenoe++;
-            break;
-        case 3:
-            cout << "Чай принято;\n";
-            A.chai++;
-            break;
-        case 4:
-            cout << "Первое принято;\n";
-            A.pervoe++;
-            break;
-        case 5:
-            cout << "Второе принято;\n";
-            A.vtoroe++;
-            break;
-        case 6:
-            cout << "Десерт принято;\n";
-            A.desert++;
-            break;
-        }
-        cout << "\n";
+        if (x == 0) break;
+        A.add(x);
     } while (x!=0);
     cout << "\n\n";
     A.execute();
